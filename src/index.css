@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-canvas: #031224;
+    --bg-surface: #071e36;
+    --bg-elevated: #0b2947;
+    --accent-cyan: #5ce1e6;
+    --accent-sky: #38bdf8;
+    --accent-gold: #d4af37;
+    --border-hairline: rgba(92, 225, 230, 0.16);
+  }
+
+  html {
+    font-family: 'IBM Plex Sans Arabic', system-ui, -apple-system, sans-serif;
+    scroll-behavior: smooth;
+    background-color: #031224;
+    color: #f1f5f9;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif;
+  }
+
+  .font-mono-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Cover-inspired subtle isometric blueprint grid background */
+.cover-grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(92, 225, 230, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(92, 225, 230, 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.cover-radial-glow {
+  background: radial-gradient(
+    ellipse 70% 55% at 50% 0%,
+    rgba(14, 116, 144, 0.32) 0%,
+    rgba(6, 44, 78, 0.22) 48%,
+    rgba(3, 18, 36, 0) 100%
+  );
+}
+
+.text-glow-cyan {
+  text-shadow: 0 0 28px rgba(92, 225, 230, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

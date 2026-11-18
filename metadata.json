@@ -1,0 +1,6 @@
+{
+  "name": "مبادرة عين المنيا | Ain El Minya",
+  "description": "مبادرة ذكية لرصد وتحليل المشكلات المجتمعية في محافظة المنيا باستخدام البرمجة وتقنيات الذكاء الاصطناعي — كلية الحاسبات والمعلومات، جامعة المنيا.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
