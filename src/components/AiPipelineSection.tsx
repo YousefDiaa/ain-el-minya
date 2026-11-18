@@ -1,31 +1,11 @@
 import { useState } from 'react';
-import {
-  Camera,
-  ShieldCheck,
-  ScanEye,
-  FileSearch,
-  MapPin,
-  BellRing,
-  Send,
-  ChevronRight,
-  ChevronLeft,
-} from 'lucide-react';
+import { ChevronRight, ChevronLeft } from 'lucide-react';
 import {
   AI_GOVERNANCE_NOTE,
   AI_ROLES,
   REPORT_SEQUENCE_STEPS,
   SAMPLE_SCENARIOS,
 } from '../data/initiativeData';
-
-const STEP_ICONS = [
-  Send,
-  Camera,
-  ShieldCheck,
-  FileSearch,
-  ScanEye,
-  MapPin,
-  BellRing,
-];
 
 export default function AiPipelineSection() {
   const [selectedScenarioId, setSelectedScenarioId] = useState<string>(SAMPLE_SCENARIOS[0].id);
@@ -36,167 +16,117 @@ export default function AiPipelineSection() {
   const currentStepInfo =
     REPORT_SEQUENCE_STEPS.find((item) => item.step === activeStep) ?? REPORT_SEQUENCE_STEPS[0];
 
-  const renderStepOutput = () => {
+  const getStepData = () => {
     switch (activeStep) {
       case 1:
-        return {
-          heading: 'توثيق حساب المواطن وفتح البلاغ',
-          rows: [
-            { label: 'حالة التحقق من الحساب', value: 'حساب مواطن موثّق برقم الهاتف' },
-            { label: 'نوع المشكلة المختار', value: scenario.label },
-            { label: 'وصف المواطن', value: scenario.description },
-          ],
-        };
+        return [
+          { label: 'الحساب', value: 'حساب مواطن موثّق برقم الهاتف' },
+          { label: 'نوع المشكلة', value: scenario.label },
+          { label: 'الوصف', value: scenario.description },
+        ];
       case 2:
-        return {
-          heading: 'التصوير المباشر ورصد الموقع الجغرافي',
-          rows: [
-            { label: 'مصدر الصورة', value: 'كاميرا التطبيق المباشرة فقط (ممنوع الرفع من المعرض)' },
-            { label: 'النطاق الجغرافي', value: scenario.location },
-            { label: 'الإحداثيات الملتقطة', value: '28.1099° N, 30.7503° E (محافظة المنيا)' },
-          ],
-        };
+        return [
+          { label: 'مصدر الصورة', value: 'كاميرا التطبيق المباشرة فقط (دون المعرض)' },
+          { label: 'الموقع', value: scenario.location },
+          { label: 'الإحداثيات', value: '28.1099° N, 30.7503° E' },
+        ];
       case 3:
-        return {
-          heading: 'تضمين العلامة المائية والتوقيع الرقمي',
-          rows: [
-            { label: 'الرمز الفريد للبلاغ', value: scenario.watermarkCode },
-            { label: 'بيانات العلامة المائية', value: 'توقيت الالتقاط · الموقع الجغرافي · التوقيع الرقمي' },
-            { label: 'آلية الحماية', value: 'توقيع رقمي موثّق صادر من التطبيق لمنع التلاعب' },
-          ],
-        };
+        return [
+          { label: 'الرمز الفريد', value: scenario.watermarkCode },
+          { label: 'العلامة المائية', value: 'توقيت الالتقاط · الموقع الجغرافي · توقيع رقمي' },
+          { label: 'الغرض', value: 'منع الصور المنقولة أو المعدّلة' },
+        ];
       case 4:
-        return {
-          heading: 'التحقق الآلي من موثوقية الصورة',
-          rows: [
-            { label: 'فحص التوقيع الرقمي', value: 'توقيع سليم — الصورة التُقطت مباشرة داخل المنصة' },
-            { label: 'تطابق الوقت والمكان', value: 'بيانات العلامة المائية متطابقة مع إحداثيات البلاغ' },
-            { label: 'قرار القبول الأولي', value: 'مؤهل للتحليل بالذكاء الاصطناعي' },
-          ],
-        };
+        return [
+          { label: 'نتيجة الفحص', value: 'التوقيع الرقمي سليم ومطابق لإحداثيات البلاغ' },
+          { label: 'الإجراء', value: 'اعتماد الصورة وتمريرها لنماذج الذكاء الاصطناعي' },
+        ];
       case 5:
-        return {
-          heading: 'التحليل بالرؤية الحاسوبية ومعالجة اللغة الطبيعية',
-          rows: [
-            { label: 'تحليل الصور (Computer Vision)', value: scenario.aiVisionResult },
-            { label: 'التصنيف النصي (NLP)', value: scenario.nlpClassification },
-            { label: 'فحص البلاغات المكررة', value: scenario.duplicateStatus },
-          ],
-        };
+        return [
+          { label: 'Computer Vision', value: scenario.aiVisionResult },
+          { label: 'تصنيف NLP', value: scenario.nlpClassification },
+          { label: 'التكرار', value: scenario.duplicateStatus },
+        ];
       case 6:
-        return {
-          heading: 'تحديد الأولوية والتوجيه للجهة المختصة',
-          rows: [
-            { label: 'درجة الأولوية المقترحة', value: scenario.priority },
-            { label: 'المدة الزمنية المحددة للمعالجة', value: scenario.slaDuration },
-            { label: 'الجهة المختصة المحال إليها', value: scenario.targetAuthority },
-          ],
-        };
+        return [
+          { label: 'الأولوية', value: scenario.priority },
+          { label: 'المهلة المحددة', value: scenario.slaDuration },
+          { label: 'الجهة المختصة', value: scenario.targetAuthority },
+        ];
       case 7:
       default:
-        return {
-          heading: 'متابعة التنفيذ، التنبيه، ومسار التصعيد',
-          rows: [
-            { label: 'تحديث الحالة للمواطن', value: 'إشعار فوري عبر المنصة عند كل إجراء تتخذه الجهة' },
-            { label: 'تنبيه المهلة الزمنية', value: 'إرسال تنبيه للجهة المختصة عند اقتراب انتهاء المهلة' },
-            {
-              label: 'التصعيد التلقائي عند التأخر',
-              value: 'تصعيد للجهة الإشرافية وتحويل لمسار شكوى رسمي مع إخطار المواطن',
-            },
-          ],
-        };
+        return [
+          { label: 'الإشعارات', value: 'إشعار للمواطن عند كل تحديث من لوحة التحكم' },
+          { label: 'التصعيد التلقائي', value: 'تصعيد للجهة الإشرافية ومسار شكوى عند انتهاء المهلة' },
+        ];
     }
   };
-
-  const stepOutput = renderStepOutput();
 
   return (
     <section
       id="ai-pipeline"
-      className="border-b border-[#5CE1E6]/15 bg-[#031224] py-16 lg:py-24 cover-grid-bg"
+      className="border-b border-[#5CE1E6]/15 bg-[#031224] py-14 lg:py-20 cover-grid-bg"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* AI Integration Header */}
-        <div className="max-w-3xl">
-          <p className="text-xs font-medium tracking-wider text-[#5CE1E6]">
-            دور الذكاء الاصطناعي · AI Integration
-          </p>
-          <h2
-            className="mt-2 font-display font-bold text-white"
-            style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)' }}
-          >
-            دور الذكاء الاصطناعي في مبادرة عين المنيا
-          </h2>
-          <p className="mt-3 text-[15.5px] leading-relaxed text-slate-300">
-            يمثل الذكاء الاصطناعي عنصرًا أساسيًا في تحسين كفاءة المنصة ودقة تصنيف البلاغات، مع
-            الحفاظ على المراجعة البشرية للقرارات النهائية.
+        <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
+          <div>
+            <p className="text-xs font-medium text-[#5CE1E6]">
+              الذكاء الاصطناعي · AI Integration
+            </p>
+            <h2
+              className="mt-1.5 font-display font-bold text-white"
+              style={{ fontSize: 'clamp(1.65rem, 3vw, 2.35rem)' }}
+            >
+              كيف يوظّف المشروع الذكاء الاصطناعي؟
+            </h2>
+          </div>
+          <p className="max-w-md text-xs leading-relaxed text-[#94D8E2]">
+            {AI_GOVERNANCE_NOTE}
           </p>
         </div>
 
-        {/* 5 AI Pillars */}
-        <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {/* 5 Compact AI Role Tiles */}
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {AI_ROLES.map((role) => (
             <div
               key={role.number}
-              className="flex flex-col justify-between rounded-xl border border-[#5CE1E6]/18 bg-[#061A30]/95 p-6"
+              className="rounded-xl border border-[#5CE1E6]/18 bg-[#061A30]/95 p-5"
             >
-              <div>
-                <div className="flex items-center justify-between gap-2 text-xs text-[#94D8E2]">
-                  <span className="font-mono-num font-semibold text-[#5CE1E6]">{role.number}.</span>
-                  <span dir="ltr" className="text-slate-400">
-                    {role.englishTag}
-                  </span>
-                </div>
-                <h3 className="mt-3 font-display text-xl font-bold text-white">
-                  {role.title}
-                </h3>
-                <p className="mt-2.5 text-sm leading-[1.85] text-slate-300">
-                  {role.description}
-                </p>
+              <div className="flex items-center justify-between gap-2 text-[11px]">
+                <span className="font-mono-num font-bold text-[#5CE1E6]">{role.number}.</span>
+                <span dir="ltr" className="text-slate-400">
+                  {role.englishTag}
+                </span>
               </div>
+              <h3 className="mt-2 font-display text-base font-bold text-white">
+                {role.title}
+              </h3>
+              <p className="mt-1.5 text-xs leading-relaxed text-slate-300">
+                {role.description}
+              </p>
             </div>
           ))}
-
-          {/* Human Governance Card */}
-          <div className="flex flex-col justify-between rounded-xl border border-[#D4AF37]/35 bg-[#07213B] p-6">
-            <div>
-              <p className="text-xs font-medium text-[#E9C86B]">
-                الحوكمة والإشراف البشري · Human-in-the-Loop
-              </p>
-              <h3 className="mt-3 font-display text-xl font-bold text-white">
-                القرار النهائي للعنصر البشري
-              </h3>
-              <p className="mt-2.5 text-sm leading-[1.85] text-slate-200">
-                {AI_GOVERNANCE_NOTE}
-              </p>
-            </div>
-          </div>
         </div>
 
-        {/* Interactive 7-Step Report Lifecycle Simulator */}
+        {/* Compact Interactive 7-Step Report Simulator */}
         <div
           id="report-simulator"
-          className="mt-16 rounded-2xl border border-[#5CE1E6]/25 bg-[#05182E] p-6 sm:p-8 lg:p-10"
+          className="mt-12 rounded-2xl border border-[#5CE1E6]/25 bg-[#05182E] p-6 sm:p-8"
         >
-          <div className="flex flex-col justify-between gap-6 border-b border-[#5CE1E6]/15 pb-6 lg:flex-row lg:items-end">
+          <div className="flex flex-col justify-between gap-4 border-b border-[#5CE1E6]/15 pb-5 lg:flex-row lg:items-center">
             <div>
-              <p className="text-xs font-medium text-[#5CE1E6]">
-                محاكاة توضيحية تفاعلية · Report Processing Sequence
-              </p>
-              <h3 className="mt-2 font-display text-2xl font-bold text-white">
-                تسلسل معالجة البلاغ خطوة بخطوة
+              <h3 className="font-display text-xl font-bold text-white">
+                محاكاة تسلسل معالجة البلاغ (7 خطوات)
               </h3>
-              <p className="mt-2 max-w-2xl text-sm text-slate-300">
-                اختر نوع المشكلة ثم تنقّل عبر المراحل السبع للاطلاع على آلية التوثيق الرقمي
-                والتحليل بالذكاء الاصطناعي والتوجيه والتصعيد.
+              <p className="mt-1 text-xs text-slate-300">
+                جرّب اختيار نوع المشكلة واستعرض خطوات التوثيق والتحليل والتوجيه.
               </p>
             </div>
 
-            {/* Sample Issue Filter Tabs */}
             <div
               role="group"
-              aria-label="اختيار مثال نوع المشكلة"
-              className="flex flex-wrap items-center gap-1.5 rounded-xl border border-[#5CE1E6]/15 bg-[#031224] p-1.5"
+              aria-label="اختيار نوع المشكلة"
+              className="flex flex-wrap items-center gap-1.5 rounded-xl border border-[#5CE1E6]/15 bg-[#031224] p-1"
             >
               {SAMPLE_SCENARIOS.map((item) => {
                 const isSelected = item.id === selectedScenarioId;
@@ -205,7 +135,7 @@ export default function AiPipelineSection() {
                     key={item.id}
                     type="button"
                     onClick={() => setSelectedScenarioId(item.id)}
-                    className={`min-h-[40px] rounded-lg px-3.5 py-2 text-xs font-semibold transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#5CE1E6] ${
+                    className={`min-h-[38px] rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap shrink-0 ${
                       isSelected
                         ? 'bg-[#5CE1E6] text-[#031224]'
                         : 'text-slate-300 hover:bg-[#08223D] hover:text-white'
@@ -218,119 +148,82 @@ export default function AiPipelineSection() {
             </div>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
-            {/* Step List (7 Steps) */}
-            <div className="space-y-2 lg:col-span-5">
-              {REPORT_SEQUENCE_STEPS.map((item) => {
-                const Icon = STEP_ICONS[item.step - 1] ?? ScanEye;
-                const active = item.step === activeStep;
-                return (
-                  <button
-                    key={item.step}
-                    type="button"
-                    onClick={() => setActiveStep(item.step)}
-                    className={`flex w-full items-center gap-3.5 rounded-xl border px-4 py-3.5 text-right transition-colors focus-visible:outline-2 focus-visible:outline-[#5CE1E6] ${
-                      active
-                        ? 'border-[#5CE1E6] bg-[#0B2B4B] text-white'
-                        : 'border-[#5CE1E6]/12 bg-[#041426] text-slate-300 hover:border-[#5CE1E6]/35 hover:text-white'
+          {/* Horizontal Stepper Pills-Free Number Rail */}
+          <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
+            {REPORT_SEQUENCE_STEPS.map((item) => {
+              const active = item.step === activeStep;
+              return (
+                <button
+                  key={item.step}
+                  type="button"
+                  onClick={() => setActiveStep(item.step)}
+                  className={`flex flex-col items-start rounded-xl border p-3 text-right transition-colors ${
+                    active
+                      ? 'border-[#5CE1E6] bg-[#0B2B4B] text-white'
+                      : 'border-[#5CE1E6]/12 bg-[#031224] text-slate-300 hover:border-[#5CE1E6]/35'
+                  }`}
+                >
+                  <span
+                    className={`font-mono-num text-xs font-bold ${
+                      active ? 'text-[#5CE1E6]' : 'text-slate-400'
                     }`}
                   >
-                    <span
-                      className={`font-mono-num flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-xs font-bold ${
-                        active
-                          ? 'bg-[#5CE1E6] text-[#031224]'
-                          : 'bg-[#07213B] text-[#5CE1E6]'
-                      }`}
-                    >
-                      {item.step}
-                    </span>
-                    <span className="flex-1 text-sm font-semibold">{item.title}</span>
-                    <Icon
-                      className={`h-4 w-4 shrink-0 ${
-                        active ? 'text-[#5CE1E6]' : 'text-slate-500'
-                      }`}
-                    />
-                  </button>
-                );
-              })}
+                    0{item.step}
+                  </span>
+                  <span className="mt-1 text-xs font-semibold leading-snug">
+                    {item.title}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Active Step Compact Output Card */}
+          <div className="mt-6 rounded-xl border border-[#5CE1E6]/20 bg-[#031224] p-5 sm:p-6">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#5CE1E6]/15 pb-3.5">
+              <div>
+                <h4 className="font-display text-lg font-bold text-white">
+                  {currentStepInfo.step}. {currentStepInfo.title}
+                </h4>
+                <p className="text-xs text-slate-400">{currentStepInfo.detail}</p>
+              </div>
+              <span className="font-mono-num text-xs text-[#5CE1E6]">
+                {scenario.watermarkCode}
+              </span>
             </div>
 
-            {/* Active Step Detail & Simulated Output */}
-            <div className="flex flex-col justify-between rounded-xl border border-[#5CE1E6]/20 bg-[#031224] p-6 lg:col-span-7">
-              <div>
-                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#5CE1E6]/15 pb-4">
-                  <div className="text-xs text-[#94D8E2]">
-                    <span className="font-mono-num">الخطوة {activeStep} من 7</span>
-                    <span className="mx-2" aria-hidden="true">·</span>
-                    <span>{scenario.category}</span>
-                  </div>
-                  <span className="font-mono-num text-xs text-[#5CE1E6]">
-                    {scenario.watermarkCode}
-                  </span>
+            <dl className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+              {getStepData().map((row) => (
+                <div key={row.label} className="rounded-lg bg-[#061B32] p-3.5">
+                  <dt className="text-[11px] font-medium text-[#94D8E2]">{row.label}</dt>
+                  <dd className="mt-1 text-sm font-semibold text-white">{row.value}</dd>
                 </div>
+              ))}
+            </dl>
 
-                <h4 className="mt-5 font-display text-xl font-bold text-white">
-                  {currentStepInfo.title}
-                </h4>
-                <p className="mt-2 text-sm leading-relaxed text-slate-300">
-                  {currentStepInfo.detail}
-                </p>
+            <div className="mt-5 flex items-center justify-between border-t border-[#5CE1E6]/15 pt-4">
+              <button
+                type="button"
+                onClick={() => setActiveStep((prev) => Math.max(1, prev - 1))}
+                disabled={activeStep === 1}
+                className="inline-flex min-h-[38px] items-center gap-1 rounded-lg border border-[#5CE1E6]/25 px-3.5 py-1.5 text-xs font-semibold text-white hover:border-[#5CE1E6] disabled:opacity-40 whitespace-nowrap"
+              >
+                <ChevronRight className="h-4 w-4" />
+                <span>السابق</span>
+              </button>
 
-                <div className="mt-6 rounded-xl border border-[#5CE1E6]/15 bg-[#061B32] p-5">
-                  <p className="text-xs font-semibold text-[#5CE1E6]">
-                    {stepOutput.heading}
-                  </p>
-                  <dl className="mt-4 divide-y divide-[#5CE1E6]/12">
-                    {stepOutput.rows.map((row) => (
-                      <div
-                        key={row.label}
-                        className="flex flex-col gap-1 py-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4"
-                      >
-                        <dt className="text-xs font-medium text-slate-400 shrink-0">
-                          {row.label}
-                        </dt>
-                        <dd className="text-sm font-medium text-white sm:text-left">
-                          {row.value}
-                        </dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              </div>
+              <span className="font-mono-num text-xs text-slate-400">
+                {activeStep} / 7
+              </span>
 
-              {/* Prev / Next Navigation Controls */}
-              <div className="mt-6 flex items-center justify-between border-t border-[#5CE1E6]/15 pt-5">
-                <button
-                  type="button"
-                  onClick={() => setActiveStep((prev) => Math.max(1, prev - 1))}
-                  disabled={activeStep === 1}
-                  className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-[#5CE1E6]/25 px-4 py-2 text-xs font-semibold text-white transition-colors hover:border-[#5CE1E6] disabled:cursor-not-allowed disabled:opacity-40 whitespace-nowrap shrink-0"
-                >
-                  <ChevronRight className="h-4 w-4" />
-                  <span>الخطوة السابقة</span>
-                </button>
-
-                <span className="font-mono-num text-xs text-slate-400">
-                  {activeStep} / {REPORT_SEQUENCE_STEPS.length}
-                </span>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    setActiveStep((prev) =>
-                      prev < REPORT_SEQUENCE_STEPS.length ? prev + 1 : 1
-                    )
-                  }
-                  className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-[#5CE1E6] px-4 py-2 text-xs font-bold text-[#031224] transition-colors hover:bg-[#82ECEF] whitespace-nowrap shrink-0"
-                >
-                  <span>
-                    {activeStep === REPORT_SEQUENCE_STEPS.length
-                      ? 'إعادة من البداية'
-                      : 'الخطوة التالية'}
-                  </span>
-                  <ChevronLeft className="h-4 w-4" />
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={() => setActiveStep((prev) => (prev < 7 ? prev + 1 : 1))}
+                className="inline-flex min-h-[38px] items-center gap-1 rounded-lg bg-[#5CE1E6] px-3.5 py-1.5 text-xs font-bold text-[#031224] hover:bg-[#82ECEF] whitespace-nowrap"
+              >
+                <span>{activeStep === 7 ? 'إعادة' : 'التالي'}</span>
+                <ChevronLeft className="h-4 w-4" />
+              </button>
             </div>
           </div>
         </div>
