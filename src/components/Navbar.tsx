@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 
 const NAV_LINKS = [
-  { href: '#vision', label: 'المشكلة والأهداف' },
+  { href: '#vision', label: 'الفكرة والأهداف' },
   { href: '#ai-pipeline', label: 'الذكاء الاصطناعي' },
-  { href: '#execution', label: 'خطة التنفيذ' },
-  { href: '#impact', label: 'المؤشرات والأمان' },
+  { href: '#workflow', label: 'آليات العمل' },
+  { href: '#roadmap', label: 'خطة التنفيذ' },
+  { href: '#risk-security', label: 'المخاطر والأمان' },
 ];
 
 export default function Navbar() {
@@ -58,10 +59,10 @@ export default function Navbar() {
           <span className="font-display">عين المنيا</span>
         </a>
 
-        {/* Zone 2: 4 Clean Single-Line Nav Links */}
+        {/* Zone 2: 5 Single-Line Nav Links */}
         <nav
           aria-label="التنقل الرئيسي"
-          className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-300"
+          className="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-300"
         >
           {NAV_LINKS.map((link) => (
             <a
@@ -78,7 +79,7 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* Zone 3: Primary Action + Mobile Menu */}
+        {/* Zone 3: Primary Action + Mobile Trigger */}
         <div className="flex items-center gap-3 shrink-0">
           <a
             href="#report-simulator"
@@ -96,15 +97,16 @@ export default function Navbar() {
             onClick={() => setMobileOpen((prev) => !prev)}
             aria-expanded={mobileOpen}
             aria-label={mobileOpen ? 'إغلاق القائمة' : 'فتح القائمة'}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#5CE1E6]/25 bg-[#071E36] text-slate-100 transition-colors hover:border-[#5CE1E6]/60 md:hidden focus-visible:outline-2 focus-visible:outline-[#5CE1E6]"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#5CE1E6]/25 bg-[#071E36] text-slate-100 transition-colors hover:border-[#5CE1E6]/60 lg:hidden focus-visible:outline-2 focus-visible:outline-[#5CE1E6]"
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
 
+      {/* Mobile Navigation Drawer */}
       {mobileOpen && (
-        <div className="border-t border-[#5CE1E6]/15 bg-[#04172C] px-4 py-4 md:hidden">
+        <div className="border-t border-[#5CE1E6]/15 bg-[#04172C] px-4 py-4 lg:hidden">
           <nav aria-label="قائمة الجوال" className="flex flex-col gap-2">
             {NAV_LINKS.map((link) => (
               <a
