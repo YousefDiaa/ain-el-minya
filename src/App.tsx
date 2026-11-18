@@ -7,8 +7,10 @@ import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import VisionObjectivesSection from './components/VisionObjectivesSection';
 import AiPipelineSection from './components/AiPipelineSection';
-import ExecutionHubSection from './components/ExecutionHubSection';
-import ImpactGovernanceFooter from './components/ImpactGovernanceFooter';
+import WorkflowSection from './components/WorkflowSection';
+import RoadmapBudgetSection from './components/RoadmapBudgetSection';
+import PartnershipsKpisSection from './components/PartnershipsKpisSection';
+import RiskSecurityFooterSection from './components/RiskSecurityFooterSection';
 
 export default function App() {
   return (
@@ -18,8 +20,10 @@ export default function App() {
         <HeroSection />
         <VisionObjectivesSection />
         <AiPipelineSection />
-        <ExecutionHubSection />
-        <ImpactGovernanceFooter />
+        <WorkflowSection />
+        <RoadmapBudgetSection />
+        <PartnershipsKpisSection />
+        <RiskSecurityFooterSection />
       </main>
     </div>
   );

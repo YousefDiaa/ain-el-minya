@@ -1,38 +1,10 @@
 import {
-  AlertCircle,
-  Building2,
-  Camera,
-  CheckCircle2,
-  GraduationCap,
-  HeartHandshake,
-  MapPin,
-  ScanEye,
-  Target,
-  TrendingUp,
-  Users,
-  type LucideIcon,
-} from 'lucide-react';
-import {
   GENERAL_OBJECTIVE,
   PROBLEM_STATEMENT,
   PROPOSED_SOLUTION,
   SUB_OBJECTIVES,
   TARGET_AUDIENCE,
 } from '../data/initiativeData';
-
-const SUB_OBJECTIVE_ICONS: Record<string, LucideIcon> = {
-  '01': Camera,
-  '02': ScanEye,
-  '03': MapPin,
-  '04': HeartHandshake,
-  '05': TrendingUp,
-};
-
-const AUDIENCE_ICONS: Record<string, LucideIcon> = {
-  '01': Users,
-  '02': Building2,
-  '03': GraduationCap,
-};
 
 export default function VisionObjectivesSection() {
   return (
@@ -59,14 +31,9 @@ export default function VisionObjectivesSection() {
               <p className="text-xs font-medium text-[#94D8E2]">
                 {PROBLEM_STATEMENT.englishTitle}
               </p>
-              <div className="mt-2 flex items-center gap-3">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-amber-400/30 bg-amber-500/10 text-amber-300">
-                  <AlertCircle className="h-5 w-5" aria-hidden="true" />
-                </span>
-                <h3 className="font-display text-2xl font-bold text-white">
-                  {PROBLEM_STATEMENT.title}
-                </h3>
-              </div>
+              <h3 className="mt-2 font-display text-2xl font-bold text-white">
+                {PROBLEM_STATEMENT.title}
+              </h3>
 
               <div className="mt-6 space-y-4 text-[15px] leading-[1.85] text-slate-300">
                 {PROBLEM_STATEMENT.paragraphs.map((para, idx) => (
@@ -85,14 +52,9 @@ export default function VisionObjectivesSection() {
             <p className="text-xs font-medium text-[#5CE1E6]">
               {PROPOSED_SOLUTION.englishTitle}
             </p>
-            <div className="mt-2 flex items-center gap-3">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#5CE1E6]/35 bg-[#5CE1E6]/10 text-[#5CE1E6]">
-                <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <h3 className="font-display text-2xl font-bold text-white">
-                {PROPOSED_SOLUTION.title}
-              </h3>
-            </div>
+            <h3 className="mt-2 font-display text-2xl font-bold text-white">
+              {PROPOSED_SOLUTION.title}
+            </h3>
             <p className="mt-3 text-[15px] leading-relaxed text-slate-200">
               {PROPOSED_SOLUTION.intro}
             </p>
@@ -121,14 +83,9 @@ export default function VisionObjectivesSection() {
               <p className="text-xs font-medium text-[#5CE1E6]">
                 الأهداف · Objectives
               </p>
-              <div className="mt-2 flex items-center gap-3">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#5CE1E6]/35 bg-[#061D36] text-[#5CE1E6]">
-                  <Target className="h-5 w-5" aria-hidden="true" />
-                </span>
-                <h3 className="font-display text-2xl font-bold text-white">
-                  الهدف العام للمبادرة
-                </h3>
-              </div>
+              <h3 className="mt-2 font-display text-2xl font-bold text-white">
+                الهدف العام للمبادرة
+              </h3>
               <p className="mt-4 text-[15.5px] leading-[1.85] text-slate-200">
                 {GENERAL_OBJECTIVE}
               </p>
@@ -136,34 +93,26 @@ export default function VisionObjectivesSection() {
 
             {/* 5 Sub-Objectives */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-8">
-              {SUB_OBJECTIVES.map((obj, idx) => {
-                const Icon = SUB_OBJECTIVE_ICONS[obj.number] ?? Target;
-                return (
-                  <div
-                    key={obj.number}
-                    className={`rounded-xl border border-[#5CE1E6]/15 bg-[#061D36] p-6 ${
-                      idx === 4 ? 'sm:col-span-2' : ''
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#5CE1E6]/25 bg-[#041426] text-[#5CE1E6]">
-                        <Icon className="h-4.5 w-4.5" aria-hidden="true" />
-                      </span>
-                      <div className="flex items-baseline gap-2">
-                        <span className="font-mono-num text-xs font-semibold text-[#5CE1E6]">
-                          {obj.number}.
-                        </span>
-                        <h4 className="font-display text-lg font-bold text-white">
-                          {obj.title}
-                        </h4>
-                      </div>
-                    </div>
-                    <p className="mt-3 text-sm leading-[1.8] text-slate-300">
-                      {obj.description}
-                    </p>
+              {SUB_OBJECTIVES.map((obj, idx) => (
+                <div
+                  key={obj.number}
+                  className={`rounded-xl border border-[#5CE1E6]/15 bg-[#061D36] p-6 ${
+                    idx === 4 ? 'sm:col-span-2' : ''
+                  }`}
+                >
+                  <div className="flex items-baseline gap-3">
+                    <span className="font-mono-num text-sm font-semibold text-[#5CE1E6]">
+                      {obj.number}.
+                    </span>
+                    <h4 className="font-display text-lg font-bold text-white">
+                      {obj.title}
+                    </h4>
                   </div>
-                );
-              })}
+                  <p className="mt-2.5 text-sm leading-[1.8] text-slate-300">
+                    {obj.description}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -175,14 +124,9 @@ export default function VisionObjectivesSection() {
               <p className="text-xs font-medium text-[#5CE1E6]">
                 المستفيدون · Target Audience
               </p>
-              <div className="mt-2 flex items-center gap-3">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#5CE1E6]/30 bg-[#061D36] text-[#5CE1E6]">
-                  <Users className="h-5 w-5" aria-hidden="true" />
-                </span>
-                <h3 className="font-display text-2xl font-bold text-white">
-                  الفئات المستهدفة
-                </h3>
-              </div>
+              <h3 className="mt-2 font-display text-2xl font-bold text-white">
+                الفئات المستهدفة
+              </h3>
             </div>
             <p className="text-sm text-slate-300">
               منظومة تشاركية تربط المواطن بالجهات التنفيذية والكوادر الشابة
@@ -190,30 +134,22 @@ export default function VisionObjectivesSection() {
           </div>
 
           <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
-            {TARGET_AUDIENCE.map((group) => {
-              const Icon = AUDIENCE_ICONS[group.number] ?? Users;
-              return (
-                <div
-                  key={group.number}
-                  className="rounded-xl border border-[#5CE1E6]/15 bg-[#061D36] p-6"
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#5CE1E6]/25 bg-[#041426] text-[#5CE1E6]">
-                      <Icon className="h-4.5 w-4.5" aria-hidden="true" />
-                    </span>
-                    <span className="font-mono-num text-xs font-semibold text-[#5CE1E6]">
-                      {group.number}
-                    </span>
-                  </div>
-                  <h4 className="mt-3.5 font-display text-xl font-bold text-white">
-                    {group.title}
-                  </h4>
-                  <p className="mt-2.5 text-sm leading-[1.8] text-slate-300">
-                    {group.description}
-                  </p>
-                </div>
-              );
-            })}
+            {TARGET_AUDIENCE.map((group) => (
+              <div
+                key={group.number}
+                className="rounded-xl border border-[#5CE1E6]/15 bg-[#061D36] p-6"
+              >
+                <span className="font-mono-num text-xs font-semibold text-[#5CE1E6]">
+                  {group.number}
+                </span>
+                <h4 className="mt-2 font-display text-xl font-bold text-white">
+                  {group.title}
+                </h4>
+                <p className="mt-2.5 text-sm leading-[1.8] text-slate-300">
+                  {group.description}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
